@@ -64,7 +64,6 @@ for directory in directories:
                             constraint=lambda param: param.n1 < param.n2)
         
         
-        
         stats_start = stats['Start']
         stats_end = stats['End']
         stats_duration = stats['Duration']

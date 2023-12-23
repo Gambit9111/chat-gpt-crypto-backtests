@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Visualization Files</title>
+</head>
+<body>
+    <h1>Available Files</h1>
+    
+    <h2>HTML Files</h2>
+    <ul>
+        {% for file in html_files %}
+            <li><a href="{{ url_for('view_html_file', filename=file) }}">{{ file }}</a></li>
+        {% endfor %}
+    </ul>
+
+    <h2>Parameter Analysis</h2>
+    <form action="{{ url_for('analyze_parameter') }}" method="get">
+        <label for="parameter">Parameter:</label>
+        <input type="text" id="parameter" name="parameter">
+        <input type="submit" value="Analyze">
+    </form>
+
+    <h2>JSON Files</h2>
+    <ul>
+        {% for file in json_files %}
+            <li><a href="{{ url_for('view_json_file', filename=file) }}">{{ file }}</a></li>
+        {% endfor %}
+    </ul>
+</body>
+</html>
