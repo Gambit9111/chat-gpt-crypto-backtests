@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>{% block title %} Your Website {% endblock %}</title>
+    <!-- Materialize CSS -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css" rel="stylesheet">
+    <!-- Custom CSS -->
+    <style>
+        body {
+            background-color: #263238; /* Dark Blue Grey */
+            color: #ECEFF1; /* Light Blue Grey */
+        }
+        h1, h2 {
+            color: #B2DFDB; /* Teal lighten-4 */
+        }
+
+        .card-panel {
+            background-color: #37474F; /* Blue Grey darken-3 */
+            color: #ECEFF1; /* Light Blue Grey */
+            padding: 10px;
+            margin-bottom: 10px;
+            transition: transform 0.2s;
+        }
+        .card-panel a {
+            color: #80CBC4; /* Teal lighten-3 */
+            display: block;
+            text-decoration: none;
+        }
+        .card-panel:hover {
+            transform: scale(1.02);
+            background-color: #455A64; /* Blue Grey darken-2 */
+        }
+        .input-field label {
+            color: #ECEFF1; /* Light Blue Grey */
+        }
+        .input-field input[type=text]:focus + label {
+            color: #80CBC4; /* Teal lighten-3 */
+        }
+        .input-field input[type=text] {
+            border-bottom: 1px solid #ECEFF1; /* Light Blue Grey */
+            box-shadow: 0 1px 0 0 #ECEFF1; /* Light Blue Grey */
+        }
+        .btn {
+            background-color: #00897B; /* Teal darken-1 */
+        }
+        .key {
+            font-weight: bold;
+            color: #80CBC4; /* Teal lighten-3 */
+        }
+        .value {
+            color: #ECEFF1; /* Light Blue Grey */
+        }
+        /* Add this in your <head> section or an external stylesheet */
+        .custom-select .select-dropdown {
+            color: #ECEFF1; /* Light color for the placeholder */
+        }
+
+    </style>
+</head>
+<body>
+
+    {% block content %}
+    <!-- Unique page content will be here -->
+    {% endblock %}
+
+    <!-- jQuery (necessary for Materialize's JavaScript) -->
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+    <!-- Materialize JS -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+
+    <script>
+        $(document).ready(function(){
+            $('select').formSelect();
+        });
+    </script>
+</body>
+</html>

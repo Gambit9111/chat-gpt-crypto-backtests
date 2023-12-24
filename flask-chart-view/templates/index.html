@@ -1,31 +1,51 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Visualization Files</title>
-</head>
-<body>
-    <h1>Available Files</h1>
-    
-    <h2>HTML Files</h2>
-    <ul>
-        {% for file in html_files %}
-            <li><a href="{{ url_for('view_html_file', filename=file) }}">{{ file }}</a></li>
-        {% endfor %}
-    </ul>
+{% extends 'base.html' %}
 
-    <h2>Parameter Analysis</h2>
-    <form action="{{ url_for('analyze_parameter') }}" method="get">
-        <label for="parameter">Parameter:</label>
-        <input type="text" id="parameter" name="parameter">
-        <input type="submit" value="Analyze">
-    </form>
+{% block content %}
+<main>
+    <div class="container">
+        <h1 class="center-align">Available Files</h1>
+        
+        <h2>HTML Files</h2>
+        <div class="row">
+            {% for file in html_files %}
+                <div class="col s12"> <!-- Updated to one column layout -->
+                    <div class="card-panel hoverable">
+                        <a href="{{ url_for('view_html_file', filename=file) }}" style="font-size: 1.2rem;">{{ file }}</a>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+        
 
-    <h2>JSON Files</h2>
-    <ul>
-        {% for file in json_files %}
-            <li><a href="{{ url_for('view_json_file', filename=file) }}">{{ file }}</a></li>
-        {% endfor %}
-    </ul>
-</body>
-</html>
+        <h2>Parameter Analysis</h2>
+        <form action="{{ url_for('analyze_parameter') }}" method="get" class="col s12">
+            <div class="row">
+                <div class="input-field col s6">
+                    <select class="custom-select" id="parameter" name="parameter">
+                        <option value="" disabled selected>Choose your option</option>
+                        {% for value in available_values %}
+                            <option value="{{ value }}">{{ value }}</option>
+                        {% endfor %}
+                    </select>
+                    <label for="parameter">Parameter:</label>
+                </div>
+                <div class="input-field col s6">
+                    <button type="submit" class="btn waves-effect waves-light">Analyze</button>
+                </div>
+            </div>
+        </form>
+        
+
+        <h2>JSON Files</h2>
+        <div class="row">
+            {% for file in json_files %}
+                <div class="col s12 m6 l4">
+                    <div class="card-panel hoverable">
+                        <a href="{{ url_for('view_json_file', filename=file) }}" style="font-size: 1.1rem;">{{ file }}</a>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+</main>
+{% endblock %}

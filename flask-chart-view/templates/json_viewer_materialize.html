@@ -1,0 +1,87 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<main>
+    
+    <div class="container">
+        <h6 class="center-align">Returns JSON Data</h6>
+        <div class="row">
+            {% for key in ['return_percentage', 'buy_hold_return', 'equity_final', 'equity_peak', 'max_drawdown', 'avg_drawdown'] %} <!-- Replace with your specific keys -->
+                {% if key in json_data %}
+                    <div class="col s12 m6 l4">
+                        <div class="card-panel">
+                            <span class="key">{{ key }}:</span>
+                            <span class="value">{{ json_data[key]|format_if_float }}</span>
+                        </div>
+                    </div>
+                {% endif %}
+            {% endfor %}
+        </div>
+    </div>
+
+    <div class="container">
+        <h6 class="center-align">Trades JSON Data</h6>
+        <div class="row">
+            {% for key in ['trades', 'win_rate', 'best_trade', 'worst_trade', 'avg_trade', 'max_trade_duration', 'avg_trade_duration'] %} <!-- Replace with your specific keys -->
+                {% if key in json_data %}
+                    <div class="col s12 m6 l4">
+                        <div class="card-panel">
+                            <span class="key">{{ key }}:</span>
+                            <span class="value">{{ json_data[key]|format_if_float }}</span>
+                        </div>
+                    </div>
+                {% endif %}
+            {% endfor %}
+        </div>
+    </div>
+
+    <div class="container">
+        <h6 class="center-align">Time JSON Data</h6>
+        <div class="row">
+            {% for key in ['start', 'end', 'duration', 'exposure_time', 'max_drawdown_duration', 'avg_drawdown_duration'] %} <!-- Replace with your specific keys -->
+                {% if key in json_data %}
+                    <div class="col s12 m6 l4">
+                        <div class="card-panel">
+                            <span class="key">{{ key }}:</span>
+                            <span class="value">{{ json_data[key]|format_if_float }}</span>
+                        </div>
+                    </div>
+                {% endif %}
+            {% endfor %}
+        </div>
+    </div>
+
+    <div class="container">
+        <h6 class="center-align">Ratios JSON Data</h6>
+        <div class="row">
+            {% for key in ['sharpe_ratio', 'sortino_ratio', 'calmar_ratio', 'profit_factor', 'expectancy', 'sqn'] %} <!-- Replace with your specific keys -->
+                {% if key in json_data %}
+                    <div class="col s12 m6 l4">
+                        <div class="card-panel">
+                            <span class="key">{{ key }}:</span>
+                            <span class="value">{{ json_data[key]|format_if_float }}</span>
+                        </div>
+                    </div>
+                {% endif %}
+            {% endfor %}
+        </div>
+    </div>
+
+    <div class="container">
+        <h6 class="center-align">Strategy JSON Data</h6>
+        <div class="row">
+            {% for key in ['strategy'] %} <!-- Replace with your specific keys -->
+                {% if key in json_data %}
+                    <div class="col s12">
+                        <div class="card-panel">
+                            <span class="key">{{ key }}:</span>
+                            <span class="value">{{ json_data[key]|format_if_float }}</span>
+                        </div>
+                    </div>
+                {% endif %}
+            {% endfor %}
+        </div>
+    </div>
+
+</main>
+{% endblock %}

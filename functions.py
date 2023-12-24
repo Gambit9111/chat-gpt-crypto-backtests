@@ -82,7 +82,7 @@ def load_csv_with_header_check(file_path):
 
 
 
-def multi_backtest_start(file_path, strategy, params, output_directory, optim_func):
+def multi_backtest_start(file_path, strategy, params, output_directory, optim_func, save_the_plot):
 
     print(f'Processing file: {file_path}')
 
@@ -170,6 +170,15 @@ def multi_backtest_start(file_path, strategy, params, output_directory, optim_fu
 
     with open(output_file_path, 'w') as json_file:
         json.dump(stats_data, json_file, indent=4)
+    
+    file_dir = 'flask-chart-view/chart-html-files/'
+    file_name = file_dir + symbol + '-USDT - ' + str(stats._strategy) + '.html'
+    
+    if save_the_plot:
+        bt.plot(filename=file_name, resample="12H")
+        print(stats)
+    else:
+        print(stats)
         
         
 def single_backtest_start(file_path, strategy, params, save_the_plot, optim_func):
@@ -190,6 +199,7 @@ def single_backtest_start(file_path, strategy, params, save_the_plot, optim_func
 
     if save_the_plot:
         bt.plot(filename=file_name, resample="12H")
+        print(opt_stats)
     else:
         print(opt_stats)
 

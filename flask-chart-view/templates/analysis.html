@@ -1,31 +1,42 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Parameter Analysis</title>
-</head>
-<body>
-    <h1>Analysis of Parameter: {{ parameter }}</h1>
+{% extends 'base.html' %}
 
-    <h2>Top 20 Highest Values</h2>
-    <ul>
-        {% for file, value in top_10_highest|reverse %}
-            <li><a href="{{ url_for('view_json_file', filename=file) }}">{{ file }}</a>: {{ value }}</li>
-        {% endfor %}
-    </ul>
+{% block content %}
+<main>
+    <div class="container">
+        <h1>Analysis of Parameter: {{ parameter }}</h1>
 
-    <h2>Top 20 Lowest Values</h2>
-    <ul>
-        {% for file, value in top_10_lowest %}
-            <li><a href="{{ url_for('view_json_file', filename=file) }}">{{ file }}</a>: {{ value }}</li>
-        {% endfor %}
-    </ul>
+        <h2>Top 20 Highest Values</h2>
+        <div class="row">
+            {% for file, value in top_10_highest|reverse %}
+                <div class="col s12 m6"> <!-- Two columns on medium and larger screens -->
+                    <div class="card-panel hoverable">
+                        <a href="{{ url_for('view_json_file', filename=file) }}">{{ file }}</a>: {{ value|float|round(2) }}
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
 
-    <h2>20 Closest to Median</h2>
-    <ul>
-        {% for file, value in closest_to_median %}
-            <li><a href="{{ url_for('view_json_file', filename=file) }}">{{ file }}</a>: {{ value }}</li>
-        {% endfor %}
-    </ul>
-</body>
-</html>
+        <h2>Top 20 Lowest Values</h2>
+        <div class="row">
+            {% for file, value in top_10_lowest %}
+                <div class="col s12 m6">
+                    <div class="card-panel hoverable">
+                        <a href="{{ url_for('view_json_file', filename=file) }}">{{ file }}</a>: {{ value|float|round(2) }}
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+
+        <h2>20 Closest to Median</h2>
+        <div class="row">
+            {% for file, value in closest_to_median %}
+                <div class="col s12 m6">
+                    <div class="card-panel hoverable">
+                        <a href="{{ url_for('view_json_file', filename=file) }}">{{ file }}</a>: {{ value|float|round(2) }}
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+</main>
+{% endblock %}

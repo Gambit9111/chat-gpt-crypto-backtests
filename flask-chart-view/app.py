@@ -1,12 +1,24 @@
 from flask import Flask, render_template, send_from_directory, jsonify, request
 import os
 import json
+from jinja2 import Environment
 
 app = Flask(__name__)
 
+def format_if_float(value):
+    try:
+        # Try to convert to float and format
+        return f"{float(value):.2f}"
+    except ValueError:
+        # Return original value if not a float
+        return value
+
+# Add custom filter to Jinja2 environment
+app.jinja_env.filters['format_if_float'] = format_if_float
+
 # Directory where the HTML files are stored
 HTML_FILES_DIR = 'chart-html-files'
-JSON_FILES_DIR = 'json-bt-results/1h'
+JSON_FILES_DIR = 'json-bt-results/1d'
 
 
 @app.route('/')
@@ -15,7 +27,24 @@ def index():
     html_files = [f for f in os.listdir(HTML_FILES_DIR) if f.endswith('.html')]
     # List all JSON files
     json_files = [f for f in os.listdir(JSON_FILES_DIR) if f.endswith('.json')]
-    return render_template('index.html', html_files=html_files, json_files=json_files)
+
+    available_values = []
+    # Check if there are any JSON files
+    if json_files:
+        # Read the first JSON file
+        with open(os.path.join(JSON_FILES_DIR, json_files[0]), 'r') as file:
+            data = json.load(file)
+        
+        # Extract all values from the JSON data
+        for key, value in data.items():
+            if isinstance(value, list):
+                available_values.extend(key)  # Add all elements from the list
+            else:
+                available_values.append(key)  # Add single value
+
+    return render_template('index.html', html_files=html_files, json_files=json_files, available_values=available_values)
+
+
 
 
 @app.route('/view/<filename>')
@@ -26,12 +55,11 @@ def view_html_file(filename):
 
 @app.route('/view/json/<filename>')
 def view_json_file(filename):
-    # Serve the specific JSON file
     file_path = os.path.join(JSON_FILES_DIR, filename)
     if os.path.exists(file_path):
         with open(file_path, 'r') as file:
             json_data = json.load(file)
-            return jsonify(json_data)  # Render JSON content
+        return render_template('json_viewer_materialize.html', json_data=json_data)
     else:
         return "File not found", 404
     
