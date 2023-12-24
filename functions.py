@@ -100,7 +100,9 @@ def multi_backtest_start(file_path, strategy, params, output_directory, optim_fu
     # # }
 
     # Run optimization
-    stats = bt.optimize(**params, maximize=optim_func)
+    stats = bt.optimize(**params, maximize=optim_func, constraint=lambda param: param.ema_short < param.ema_long)
+    print(stats._strategy)
+
 
     stats_start = stats['Start']
     stats_end = stats['End']
@@ -176,9 +178,6 @@ def multi_backtest_start(file_path, strategy, params, output_directory, optim_fu
     
     if save_the_plot:
         bt.plot(filename=file_name, resample="12H")
-        print(stats)
-    else:
-        print(stats)
         
         
 def single_backtest_start(file_path, strategy, params, save_the_plot, optim_func):
@@ -192,64 +191,14 @@ def single_backtest_start(file_path, strategy, params, save_the_plot, optim_func
     bt = Backtest(data, strategy, cash=100000, commission=.002)
 
     # # # Run optimization
-    opt_stats = bt.optimize(**params, maximize=optim_func)
+    opt_stats = bt.optimize(**params, maximize=optim_func, constraint=lambda param: param.ema_short < param.ema_long)
+    print(opt_stats._strategy)
 
     file_dir = 'flask-chart-view/chart-html-files/'
     file_name = file_dir + symbol + '-USDT - ' + str(opt_stats._strategy) + '.html'
 
     if save_the_plot:
         bt.plot(filename=file_name, resample="12H")
-        print(opt_stats)
-    else:
-        print(opt_stats)
 
 
 
-
-
-
-
-
-
-
-# params = {
-#     'stop_loss_percent': [0.25],
-#     'sma_short': [15],
-#     'sma_long': [196],
-#     'sma_day': [1535]
-# }
-
-# # # params = {
-# # #     'stop_loss_percent': [0.2, 0.25, 0.3],
-# # #     'sma_short': range(14, 16, 1),  # Example: 10, 15, 20, 25, 30
-# # #     'sma_long': range(194, 198, 1),  # Example: 150, 160, ..., 220
-# # #     'sma_day': range(1520, 1600, 10)  # Example: 4800 (200 days), 5040 (210 days), ..., 7200 (300 days)
-# # # }
-
-
-# def optim_func(series):
-    
-#     # return series['Equity Final [$]'] / series['Max. Drawdown [%]']
-#     return series['Return [%]']
-
-# #! single file backtest controls
-# save_the_plot = True
-# single_file_path = "historical-data/1h/ADAUSDT_1h-2018.csv"
-
-# # * multi file backtest controls
-# multi_backtest = False
-# input_directory = 'historical-data/1h'
-# output_directory = 'backtest-results/1h'
-
-# if multi_backtest:
-#     # * Multiple file backtest
-#     for file_path in Path(input_directory).glob('*.csv'):
-#         try:
-#             multi_backtest_start(file_path, SMACrossoverStrategy, params, output_directory, optim_func)
-#         except Exception as e:
-#             print(e)
-#             continue
-
-# else:
-#     # ! Single file backtest
-#     single_backtest_start(single_file_path, SMACrossoverStrategy, params, save_the_plot, optim_func)

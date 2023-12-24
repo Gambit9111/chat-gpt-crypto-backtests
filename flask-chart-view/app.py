@@ -1,7 +1,6 @@
-from flask import Flask, render_template, send_from_directory, jsonify, request
+from flask import Flask, render_template, send_from_directory, jsonify, request, redirect, url_for
 import os
 import json
-from jinja2 import Environment
 
 app = Flask(__name__)
 
@@ -18,7 +17,12 @@ app.jinja_env.filters['format_if_float'] = format_if_float
 
 # Directory where the HTML files are stored
 HTML_FILES_DIR = 'chart-html-files'
-JSON_FILES_DIR = 'json-bt-results/1d'
+JSON_FILES_DIR = 'json-bt-results/1h'
+
+def delete_files(directory):
+    for f in os.listdir(directory):
+        if f.endswith('.html') or f.endswith('.json'):
+            os.remove(os.path.join(directory, f))
 
 
 @app.route('/')
@@ -44,8 +48,14 @@ def index():
 
     return render_template('index.html', html_files=html_files, json_files=json_files, available_values=available_values)
 
+@app.route('/wipe-data', methods=['GET', 'POST'])
+def wipe_data():
+    if request.method == 'POST':
+        delete_files(HTML_FILES_DIR)
+        delete_files(JSON_FILES_DIR)
+        return redirect(url_for('index'))
 
-
+    return render_template('confirm_wipe.html')  # A template to confirm the action
 
 @app.route('/view/<filename>')
 def view_html_file(filename):

@@ -15,8 +15,13 @@
                 </div>
             {% endfor %}
         </div>
+    
+        <div class="row">
+            <div class="col s12 center-align">
+                <a href="{{ url_for('wipe_data') }}" class="btn red waves-effect waves-light">Wipe All Data</a>
+            </div>
+        </div>
         
-
         <h2>Parameter Analysis</h2>
         <form action="{{ url_for('analyze_parameter') }}" method="get" class="col s12">
             <div class="row">
