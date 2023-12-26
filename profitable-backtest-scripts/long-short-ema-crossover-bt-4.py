@@ -2,7 +2,7 @@ import pandas as pd
 from backtesting import Backtest, Strategy
 from backtesting.lib import crossover
 import ta
-from functions import clean_data, load_csv_with_header_check, single_backtest_start, multi_backtest_start
+from utils.functions import clean_data, load_csv_with_header_check, single_backtest_start, multi_backtest_start
 from pathlib import Path
 import json
 import os

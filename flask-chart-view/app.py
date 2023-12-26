@@ -16,8 +16,8 @@ def format_if_float(value):
 app.jinja_env.filters['format_if_float'] = format_if_float
 
 # Directory where the HTML files are stored
-HTML_FILES_DIR = 'chart-html-files'
-JSON_FILES_DIR = 'json-bt-results/1h'
+HTML_FILES_DIR = 'chart-html-files/5min'
+JSON_FILES_DIR = 'json-bt-results/5min'
 
 def delete_files(directory):
     for f in os.listdir(directory):
@@ -66,10 +66,11 @@ def view_html_file(filename):
 @app.route('/view/json/<filename>')
 def view_json_file(filename):
     file_path = os.path.join(JSON_FILES_DIR, filename)
+    html_filename = filename.replace('.json', '.html')
     if os.path.exists(file_path):
         with open(file_path, 'r') as file:
             json_data = json.load(file)
-        return render_template('json_viewer_materialize.html', json_data=json_data)
+        return render_template('json_viewer_materialize.html', json_data=json_data, html_filename=html_filename)
     else:
         return "File not found", 404
     

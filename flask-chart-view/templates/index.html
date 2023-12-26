@@ -44,7 +44,7 @@
         <h2>JSON Files</h2>
         <div class="row">
             {% for file in json_files %}
-                <div class="col s12 m6 l4">
+                <div class="col s12">
                     <div class="card-panel hoverable">
                         <a href="{{ url_for('view_json_file', filename=file) }}" style="font-size: 1.1rem;">{{ file }}</a>
                     </div>
